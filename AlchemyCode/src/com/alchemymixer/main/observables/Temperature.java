@@ -1,4 +1,4 @@
-package com.alchemymixer.main.alchemicIngredient.components;
+package com.alchemymixer.main.observables;
 
 /**
  * The Temperature class

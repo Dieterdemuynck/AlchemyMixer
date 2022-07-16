@@ -26,7 +26,7 @@ public class Temperature {
     public final long MAX_VALUE = 10000;
 
     /**
-     * Constructs a new Temperature object with given hotness and coolness.
+     * Constructs a new Temperature object with given hotness and coldness.
      * If neither value is 0, it is assumed that one value represents a certain amount of cooling/heating represented in
      * a lazy way. Thus, the values are updated to represent a valid temperature.
      * If one of the temperature values (perhaps after adjustment) exceeds MAX_VALUE, that value is set to MAX_VALUE.

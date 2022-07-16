@@ -23,7 +23,7 @@ public class Temperature {
     /**
      * The maximum value for the hotness and coldness
      */
-    public final long MAX_VALUE = 10000;
+    public static final long MAX_VALUE = 10000;
 
     /**
      * Constructs a new Temperature object with given hotness and coldness.
@@ -77,6 +77,23 @@ public class Temperature {
     }
 
     /**
+     * Returns a new Temperature object with a value equal to this object's temperatureValue plus the given value. Caps
+     * this value off to be between -MAX_VALUE and MAX_VALUE. This method can also handle long overflows.
+     *
+     * @param  value The value which is added to the temperature.
+     * @return A new Temperature object with its temperatureValue set to this value + the given value if valid.
+     *         If the resulting value is not valid or overflows, it is set to -MAX_VALUE or MAX_VALUE.
+     */
+    private Temperature addValue(long value) {
+        try {
+            return new Temperature(Math.addExact(this.temperatureValue, value));
+        } catch (ArithmeticException e) {
+            // Note that value cannot equal zero here, as that could not result in an overflow.
+            return new Temperature(Long.signum(value) * MAX_VALUE);
+        }
+    }
+
+    /**
      * Returns a new Temperature object which is hotter than this Temperature object by the given value, or is equal to
      * [0, MAX_VALUE] if the resulting value exceeds the MAX_VALUE. The given value must be positive. If the value is
      * negative, the value will be updated to zero and, essentially, a copy of this Temperature object will be given.
@@ -86,7 +103,7 @@ public class Temperature {
      */
     public Temperature heat(long heatValue) {
         heatValue = Math.max(0, heatValue);
-        return new Temperature(this.temperatureValue + heatValue);
+        return addValue(heatValue);
     }
 
     /**
@@ -98,6 +115,7 @@ public class Temperature {
      * @return a Temperature object which is cooler than this object by the given amount
      */
     public Temperature cool(long coolValue) {
-        return new Temperature(this.temperatureValue - coolValue);
+        coolValue = Math.max(0, coolValue);
+        return addValue(-coolValue);
     }
 }

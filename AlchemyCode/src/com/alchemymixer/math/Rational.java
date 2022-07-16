@@ -5,6 +5,8 @@ package com.alchemymixer.math;
  * A Rational represents a rational number using two longs, which stand for numerator and denominator. The denominator
  * cannot be zero.
  * Based on the Rational class found at https://liveexample.pearsoncmg.com/html/Rational.html?
+ * Note: this class may quickly reach overflows for values that are too large. There is no overflow handling
+ * implemented.
  *
  * @invar The denominator does not equal zero
  *
@@ -128,7 +130,7 @@ public class Rational extends Number implements Comparable<Rational> {
 
     @Override
     public int intValue() {
-        return (int) (getNumerator() / getDenominator());
+        return (int) longValue();
     }
 
     @Override

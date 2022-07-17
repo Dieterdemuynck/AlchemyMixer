@@ -10,7 +10,7 @@ public class IllegalSpecialNameAssignmentException extends RuntimeException {
     /**
      * The IngredientType of a non-mixed AlchemicalIngredient to which a special name was assigned
      */
-    private IngredientType ingredientType;
+    private final IngredientType ingredientType;
 
     /**
      * Constructs a new IllegalSpecialNameAssignmentException with ingredientType set to the given IngredientType.

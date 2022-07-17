@@ -11,7 +11,7 @@ package com.alchemymixer.main.observables;
  * @invar Either coldness or hotness, or both, must equal zero.
  *
  * @author Dieter "Dimme" D.
- * @version 1.0
+ * @version 1.0.1
  */
 public class Temperature {
 
@@ -61,7 +61,7 @@ public class Temperature {
     }
 
     /**
-     * Returns the hotness of this temperature.
+     * The getter for the hotness of this temperature.
      * @return the hotness value of this temperature
      */
     public long getHotness() {
@@ -69,7 +69,7 @@ public class Temperature {
     }
 
     /**
-     * Returns the coldness of this temperature;
+     * The getter for the coldness of this temperature;
      * @return the coldness value of this temperature
      */
     public long getColdness() {

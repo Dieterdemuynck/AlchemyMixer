@@ -15,7 +15,7 @@ import java.util.Objects;
  * @invar name is a valid simple non-mixed name.
  *
  * @author Dieter "Dimme" D.
- * @version 1.0
+ * @version 1.1
  */
 public class Name implements Comparable<Name> {
 
@@ -23,6 +23,10 @@ public class Name implements Comparable<Name> {
      * The name stored in this Name object
      */
     private final String name;
+
+    public static final String[] disallowedWords = new String[]{
+            "Heated", "Cooled"
+    };
 
     /**
      * Constructs a new Name object using the given name if it is valid. Throws an IllegalNameComponentException
@@ -32,9 +36,10 @@ public class Name implements Comparable<Name> {
      * each has at least two characters.
      * @param name The string which is the name we want to store in this Name object
      * @throws IllegalNameComponentException name is null or not a valid name.
+     *                                       | !isValidName(name)
      */
     public Name(String name) throws IllegalNameComponentException{
-        if (name == null || !name.matches("([A-Z][a-z']+( [A-Z][a-z']+)+|[A-Z][a-z']{2,})") ) {
+        if (!isValidName(name)) {
             throw new IllegalNameComponentException(name);
         } else {
             this.name = name;
@@ -49,7 +54,7 @@ public class Name implements Comparable<Name> {
     }
 
     /**
-     * Returns the name stored in this Name object.
+     * The getter for the name stored in this Name object.
      * @return the name stored in this Name object
      */
     public String getName() {
@@ -79,8 +84,33 @@ public class Name implements Comparable<Name> {
         return getName().equals(name1.getName());
     }
 
+    /**
+     * Generates the hash code for this object.
+     * @return the hash code for this object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getName());
+    }
+
+    /**
+     * Checks a suggested name for its validity as an ingredient name.
+     * @param name The suggested name to be checked for validity
+     * @return True if name is not null and has one word with at least 3 characters from A_Z, a-z or ' and starts with a
+     *         capital letter, or name has multiple words each with at least 2 of the characters from before and starts
+     *         with a capital letter, and there is no substring equal to at least one of the disallowed words.
+     */
+    public static boolean isValidName(String name) {
+        if (name == null) return false;
+        if (!name.matches("([A-Z][a-z']+( [A-Z][a-z']+)+|[A-Z][a-z']{2,})")) return false;
+
+        boolean validName = true;
+        for (String invalidName: disallowedWords) {
+            if (name.contains(invalidName)) {
+                validName = false;
+                break;
+            }
+        }
+        return validName;
     }
 }

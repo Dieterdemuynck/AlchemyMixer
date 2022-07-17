@@ -2,6 +2,17 @@ package com.alchemymixer.main.observables;
 
 import com.alchemymixer.math.Rational;
 
+/**
+ * The Unit enum
+ * This enum holds all possible units in which amounts of a certain ingredient can be expressed in. Each enum holds a
+ * Rational object, which represents its value compared to a Spoon, and also holds a boolean to check whether that Unit
+ * can act as a container (such as a Barrel or Chest, unlike a Pinch or Storeroom).
+ *
+ * @invar A Unit's value is never null
+ *
+ * @author Dieter "Dimme" D.
+ * @version 1.0.1
+ */
 public enum Unit {
     // Universal
     Spoon(1, 1, true),
@@ -45,7 +56,7 @@ public enum Unit {
     }
 
     /**
-     * Returns the value of this Unit compared to a Spoon.
+     * The getter for the value of this Unit compared to a Spoon.
      * @return A Rational with its value equal to the value of this Unit compared to a Spoon.
      */
     public Rational getValue() {
@@ -53,7 +64,7 @@ public enum Unit {
     }
 
     /**
-     * Returns whether this Unit represents a container.
+     * The checker for whether this Unit represents a container.
      * @return a boolean, which is true if this Unit represents a container, false otherwise.
      */
     public boolean isContainer() {

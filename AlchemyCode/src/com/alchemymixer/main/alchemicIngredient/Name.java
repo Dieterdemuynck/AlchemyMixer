@@ -2,6 +2,7 @@ package com.alchemymixer.main.alchemicIngredient;
 
 import com.alchemymixer.exceptions.IllegalNameComponentException;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Objects;
  * @invar name is a valid simple non-mixed name.
  *
  * @author Dieter "Dimme" D.
- * @version 1.1
+ * @version 1.2
  */
 public class Name implements Comparable<Name> {
 
@@ -24,6 +25,9 @@ public class Name implements Comparable<Name> {
      */
     private final String name;
 
+    /**
+     * The array of disallowed words that a name cannot contain
+     */
     public static final String[] disallowedWords = new String[]{
             "Heated", "Cooled"
     };
@@ -94,23 +98,32 @@ public class Name implements Comparable<Name> {
     }
 
     /**
-     * Checks a suggested name for its validity as an ingredient name.
+     * Checks a suggested name for its validity as a simple, non-mixed ingredient name.
      * @param name The suggested name to be checked for validity
      * @return True if name is not null and has one word with at least 3 characters from A_Z, a-z or ' and starts with a
-     *         capital letter, or name has multiple words each with at least 2 of the characters from before and starts
-     *         with a capital letter, and there is no substring equal to at least one of the disallowed words.
+     *         capital letter, or name has multiple words each with at least 2 characters and also starts with a capital
+     *         letter, where words are split on spaces. None of the words may be equal to at least one of the disallowed
+     *         words.
      */
     public static boolean isValidName(String name) {
         if (name == null) return false;
-        if (!name.matches("([A-Z][a-z']+( [A-Z][a-z']+)+|[A-Z][a-z']{2,})")) return false;
 
-        boolean validName = true;
-        for (String invalidName: disallowedWords) {
-            if (name.contains(invalidName)) {
-                validName = false;
-                break;
+        String[] words = name.split(" ");
+
+        String regex;
+        if (words.length > 1) {
+            // regex for multiple words
+            regex = "[A-Z][a-z']+";
+        } else {
+            // regex for only one word
+            regex = "[A-Z][a-z']{2,}";
+        }
+
+        for (String nameComponent: words) {
+            if (Arrays.asList(disallowedWords).contains(nameComponent) || !nameComponent.matches(regex)) {
+                return false;
             }
         }
-        return validName;
+        return true;
     }
 }

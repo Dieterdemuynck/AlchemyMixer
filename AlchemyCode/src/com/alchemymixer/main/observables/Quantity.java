@@ -12,7 +12,7 @@ import java.util.Objects;
  * @invar amount is greater than or equal to zero
  *
  * @author Dieter "Dimme" D.
- * @version 1.2
+ * @version 1.2.1
  */
 public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
 
@@ -67,6 +67,13 @@ public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
         return this.compareTo(other) == 0;
     }
 
+    /**
+     * Compares this Quantity to another object o, and returns whether they are equal. An object is equal to a Quantity
+     * if both are Quantities, and the spoon value of one (getSpoonValue()) is equal to the other Quantity's spoon
+     * value.
+     * @param o The other object to compare to this Quantity
+     * @return  True if and only if both objects are Quantities, not null, and their spoon values are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,6 +82,10 @@ public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
         return Objects.equals(getSpoonValue(), quantity.getSpoonValue());
     }
 
+    /**
+     * Generates a hash code for this Quantity based on its spoon value.
+     * @return A hash code based on this Quantity's spoon value
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getSpoonValue());

@@ -4,6 +4,9 @@ import com.alchemymixer.main.alchemicIngredient.IngredientType;
 
 /**
  * Exception class which is thrown when an attempt was made to assign a special name to a non-mixed ingredient.
+ *
+ * @author Dieter "Dimme" D.
+ * @version 1.0.1
  */
 public class IllegalSpecialNameAssignmentException extends RuntimeException {
 
@@ -22,7 +25,7 @@ public class IllegalSpecialNameAssignmentException extends RuntimeException {
     }
 
     /**
-     * Returns the IngredientType to which a special name was assigned.
+     * The getter for the IngredientType to which a special name was assigned.
      * @return the IngredientType to which a special name was assigned
      */
     public IngredientType getIngredientType() {

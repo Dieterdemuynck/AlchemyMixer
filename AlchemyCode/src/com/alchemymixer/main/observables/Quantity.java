@@ -2,6 +2,8 @@ package com.alchemymixer.main.observables;
 
 import com.alchemymixer.math.Rational;
 
+import java.util.Objects;
+
 /**
  * The Quantity class
  * A record to store the amount of an AlchemicalIngredient in a certain Unit.
@@ -10,20 +12,17 @@ import com.alchemymixer.math.Rational;
  * @invar amount is greater than or equal to zero
  *
  * @author Dieter "Dimme" D.
- * @version 1.1
+ * @version 1.2
  */
 public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
 
     /**
-     * Constructs a new Quantity record where the amount must be greater than or equal to zero, and the unit may not be
+     * Constructs a new Quantity record. The amount must be greater than or equal to zero, and the unit may not be
      * null.
      */
     public Quantity {
-        if (amount < 0) {
-            throw new IllegalArgumentException("amount must be greater than or equal to zero");
-        } else if (unit == null) {
-            throw new IllegalArgumentException("unit may not be null");
-        }
+        assert amount >= 0;
+        assert unit != null;
     }
 
     /**
@@ -66,5 +65,18 @@ public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
      */
     public boolean representsSameAs(Quantity other) {
         return this.compareTo(other) == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quantity quantity = (Quantity) o;
+        return Objects.equals(getSpoonValue(), quantity.getSpoonValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSpoonValue());
     }
 }

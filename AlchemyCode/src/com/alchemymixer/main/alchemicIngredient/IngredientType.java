@@ -19,7 +19,7 @@ import com.alchemymixer.main.observables.Temperature;
  * @invar a non-mixed ingredient type (exactly one name component) has no special name (special name is null).
  *
  * @author Dieter "Dimme" D.
- * @version 1.0
+ * @version 1.1
  */
 public class IngredientType {
 
@@ -106,10 +106,10 @@ public class IngredientType {
 
     /**
      * The getter for the special name of this IngredientType.
-     * @return The special name of this IngredientType
+     * @return The String representation of the special name of this IngredientType
      */
-    public Name getSpecialName() {
-        return specialName;
+    public String getSpecialName() {
+        return specialName != null ? specialName.getName() : null;
     }
 
     /**
@@ -131,15 +131,41 @@ public class IngredientType {
      * @return The String of the simple name of this ingredient type
      */
     public String getSimpleName() {
+
+        // Only one component is present: return the component name
+        if (getNameComponents().length == 1) {
+            return getNameComponents()[0].getName();
+        }
+
+        // More than one component is present: initiate "mixed with" clause
         StringBuilder result = new StringBuilder(getNameComponents()[0].getName());
         result.append(" mixed with ");
 
-        for (int i = 1; i < getNameComponents().length; i++) {
+        for (int i = 1; i < getNameComponents().length - 1; i++) {
             result.append(getNameComponents()[i].getName());
             result.append(", ");
         }
 
-        return result.toString();
+        // There are 3 or more components: end with an and instead of a comma
+        if (getNameComponents().length >= 3) {
+            result.append(" and ");
+        }
+
+        // Append the last component name and return as String
+        return result.append(getNameComponents()[getNameComponents().length - 1]).toString();
+    }
+
+    /**
+     * Generates the full name for this ingredient type, which is its special name followed by its simple name in
+     * round brackets. If this ingredient does not have a special name, its simple name is returned instead.
+     * Example: Let an ingredient type have special name "Healing Elixir" and have its components be "Red Mushroom Gas"
+     * and "Spirits Of Good Faith". Then the full name would become:
+     * "Healing Elixir (Red Mushroom Gas mixed with Spirits Of Good Faith)".
+     * @return The full name of this ingredient type, which is its special name followed by the simple name in round
+     *         brackets, or only the simple name if there is no special name.
+     */
+    public String getFullName() {
+        return specialName.getName() + " (" + getSimpleName() + ")";
     }
 
     /**

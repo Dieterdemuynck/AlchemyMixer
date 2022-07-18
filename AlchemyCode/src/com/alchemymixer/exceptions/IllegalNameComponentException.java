@@ -2,6 +2,9 @@ package com.alchemymixer.exceptions;
 
 /**
  * This exception is thrown when an invalid String was passed as an argument in an attempt to create a new Name object.
+ *
+ * @author Dieter "Dimme" D.
+ * @version 1.0.1
  */
 public class IllegalNameComponentException extends RuntimeException {
 

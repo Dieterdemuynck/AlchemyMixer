@@ -2,8 +2,6 @@ package com.alchemymixer.main.observables;
 
 import com.alchemymixer.math.Rational;
 
-import java.util.Objects;
-
 /**
  * The Quantity class
  * A record to store the amount of an AlchemicalIngredient in a certain Unit.
@@ -68,19 +66,5 @@ public record Quantity(long amount, Unit unit) implements Comparable<Quantity> {
      */
     public boolean representsSameAs(Quantity other) {
         return this.compareTo(other) == 0;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Quantity) obj;
-        return this.amount == that.amount &&
-                Objects.equals(this.unit, that.unit);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount, unit);
     }
 }

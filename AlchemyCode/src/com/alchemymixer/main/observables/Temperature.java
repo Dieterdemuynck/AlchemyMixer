@@ -1,5 +1,7 @@
 package com.alchemymixer.main.observables;
 
+import java.util.Objects;
+
 /**
  * The Temperature class
  * Objects of this class represent temperatures of ingredients, devices, etc. Temperatures are represented using a
@@ -11,9 +13,9 @@ package com.alchemymixer.main.observables;
  * @invar Either coldness or hotness, or both, must equal zero.
  *
  * @author Dieter "Dimme" D.
- * @version 1.0.1
+ * @version 1.1
  */
-public class Temperature {
+public class Temperature implements Comparable<Temperature>{
 
     /**
      * The long representation of this Temperature
@@ -46,9 +48,9 @@ public class Temperature {
      * @param temperatureValue The value to which this temperature is set
      */
     private Temperature(long temperatureValue) {
-        if (temperatureValue > MAX_VALUE) {
+        if (temperatureValue > MAX_VALUE)
             this.temperatureValue = MAX_VALUE;
-        } else
+        else
             this.temperatureValue = Math.max(temperatureValue, -MAX_VALUE);
     }
 
@@ -117,5 +119,42 @@ public class Temperature {
     public Temperature cool(long coolValue) {
         coolValue = Math.max(0, coolValue);
         return addValue(-coolValue);
+    }
+
+
+
+    /**
+     * Compares this Temperature to an object to see if they are equal. Two Temperatures are equal when their values are
+     * equal.
+     * @param o The Object to compare to this Temperature
+     * @return True if the other object is also a Temperature, and the respective temperature values are equal.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Temperature that = (Temperature) o;
+        return temperatureValue == that.temperatureValue;
+    }
+
+    /**
+     * Generates the hash code for this Temperature object, based on its temperature values.
+     * @return The hash code of this Temperature object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(temperatureValue);
+    }
+
+    /**
+     * Compares this Temperature to another Temperature object based on their hotness and coldness.
+     * @param o The other Temperature object to compare this object to
+     * @return -1 if this.getHotness() - this.getColdness() < other.getHotness() - other.getColdness(),
+     *          0 if this.getHotness() - this.getColdness() == other.getHotness() - other.getColdness(),
+     *          1 if this.getHotness() - this.getColdness() > other.getHotness() - other.getColdness()
+     */
+    @Override
+    public int compareTo(Temperature o) {
+        return Long.signum(temperatureValue - o.temperatureValue);
     }
 }

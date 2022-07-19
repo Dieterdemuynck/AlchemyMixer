@@ -46,7 +46,9 @@ public class IngredientType {
 
     /**
      * Constructs a new ingredient type with given names of the components, standard state and standard temperature. If
-     * any of the given arguments are null, or the name components are empty, an IllegalArgumentException is thrown.
+     * the name components are null or empty (length == 0), an IllegalArgumentException is thrown. If an invalid state
+     * is given (is null), the state is set to State.Liquid. If an invalid Temperature is given (is null), the
+     * temperature will be set to [0,20].
      *
      * @param nameComponents The names of the component ingredients
      * @param state          The standard state of this ingredient
@@ -54,13 +56,16 @@ public class IngredientType {
      */
     public IngredientType(Name[] nameComponents, State state, Temperature temperature) {
         if (nameComponents == null) {
+            // Names are implemented defensively, while ingredient types are implemented totally.
+            // Because it would make no sense to have every invalid ingredient name turn to "Water", I choose to do this
+            // part defensively, as with names.
             throw new IllegalArgumentException("name components cannot be null");
         } if (nameComponents.length == 0) {
             throw new IllegalArgumentException("name components must have at least one name");
         } if (state == null) {
-            throw new IllegalArgumentException("standard state cannot be null");
+            state = State.Liquid;
         } if (temperature == null) {
-            throw new IllegalArgumentException("standard temperature cannot be null");
+            temperature = new Temperature(0, 20);
         }
         this.nameComponents = nameComponents;
         this.state = state;
